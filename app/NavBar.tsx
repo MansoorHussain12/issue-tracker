@@ -7,14 +7,68 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiFillBug } from "react-icons/ai";
 
-const NavBar = () => {
-  const currentPathName = usePathname();
+const StatusMenu = () => {
   const { status, data: session } = useSession();
+  if (status === "loading") return null;
+
+  if (status === "unauthenticated")
+    return (
+      <Link className="nav-link" href="/api/auth/signin">
+        Login
+      </Link>
+    );
+
+  return (
+    <Box>
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger>
+          <Avatar
+            src={session!.user!.image!}
+            fallback="?"
+            className="cursor-pointer"
+            size="2"
+            radius="full"
+          />
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Content>
+          <DropdownMenu.Label>{session!.user!.email}</DropdownMenu.Label>
+          <DropdownMenu.Item>
+            <Link href="/api/auth/signout">Log out</Link>
+          </DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Root>
+    </Box>
+  );
+};
+
+const NavLinks = () => {
+  const currentPathName = usePathname();
 
   const links = [
     { label: "Dashboard", href: "/" },
     { label: "Issues", href: "/issues" },
   ];
+
+  return (
+    <ul className="flex space-x-6">
+      {links.map((link) => (
+        <li key={link.href}>
+          <Link
+            href={link.href}
+            className={classNames({
+              "nav-link": true,
+              "!text-zinc-900": link.href === currentPathName,
+            })}
+          >
+            {link.label}
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+const NavBar = () => {
   return (
     <nav className="px-5 mb-5 border-b py-3">
       <Container>
@@ -23,47 +77,9 @@ const NavBar = () => {
             <Link href="/">
               <AiFillBug />
             </Link>
-            <ul className="flex space-x-6">
-              {links.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className={classNames({
-                      "text-zinc-500": link.href !== currentPathName,
-                      "text-zinc-900": link.href === currentPathName,
-                      "hover:text-zinc-800 transition-colors": true,
-                    })}
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+            <NavLinks />
           </Flex>
-          <Box>
-            {status === "authenticated" && (
-              <DropdownMenu.Root>
-                <DropdownMenu.Trigger>
-                  <Avatar
-                    src={session.user!.image!}
-                    fallback="?"
-                    className="cursor-pointer"
-                    size="2"
-                    radius="full"
-                  />
-                </DropdownMenu.Trigger>
-                <DropdownMenu.Content>
-                  <DropdownMenu.Label>{session.user!.email}</DropdownMenu.Label>
-                  <DropdownMenu.Item>
-                    <Link href="/api/auth/signout">Log out</Link>
-                  </DropdownMenu.Item>
-                </DropdownMenu.Content>
-              </DropdownMenu.Root>
-            )}
-            {status === "unauthenticated" && (
-              <Link href="/api/auth/signin">Login</Link>
-            )}
-          </Box>
+          <StatusMenu />
         </Flex>
       </Container>
     </nav>
