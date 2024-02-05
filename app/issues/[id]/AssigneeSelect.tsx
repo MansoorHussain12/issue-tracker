@@ -23,7 +23,7 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
 
   if (isLoading) return <Skeleton />;
 
-  const onValueChange = async (userId: string) => {
+  const assignIssue = async (userId: string) => {
     try {
       await axios.patch(`/api/issues/${issue.id}`, {
         assignedToUserId: userId !== "unassigned" ? userId : null,
@@ -37,7 +37,7 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
     <>
       <Select.Root
         defaultValue={issue.assignedToUserId || "unassigned"}
-        onValueChange={onValueChange}
+        onValueChange={assignIssue}
       >
         <Select.Trigger placeholder="Assign..." />
         <Select.Content>
