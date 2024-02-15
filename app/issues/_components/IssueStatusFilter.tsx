@@ -14,18 +14,26 @@ const IssueStatusFilter = () => {
     { label: "In Progress", value: "IN_PROGRESS" },
     { label: "Closed", value: "CLOSED" },
   ];
+
+  const changeParameters = (status: string) => {
+    const params = new URLSearchParams();
+
+    if (searchParams.get("pageSize"))
+      params.append("pageSize", searchParams.get("pageSize")!);
+
+    if (status) params.append("status", status);
+
+    if (searchParams.get("orderBy"))
+      params.append("orderBy", searchParams.get("orderBy")!);
+
+    const query = params.size ? "?" + params.toString() : "";
+    router.push(`/issues${query}`);
+  };
+
   return (
     <Select.Root
       defaultValue={searchParams.get("status") || "all"}
-      onValueChange={(status) => {
-        const params = new URLSearchParams();
-        if (status) params.append("status", status);
-        if (searchParams.get("orderBy"))
-          params.append("orderBy", searchParams.get("orderBy")!);
-
-        const query = params.size ? "?" + params.toString() : "";
-        router.push(`/issues${query}`);
-      }}
+      onValueChange={changeParameters}
     >
       <Select.Trigger placeholder="Filter by status..." />
       <Select.Content>
