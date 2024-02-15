@@ -18,7 +18,7 @@ const IssuesPage = async ({ searchParams }: Props) => {
   const where = { status };
 
   const orderBy = columnNames.includes(searchParams.orderBy)
-    ? { [searchParams.orderBy]: "asc" }
+    ? { [searchParams.orderBy]: searchParams.sort }
     : undefined;
 
   const issueCount = await prisma.issue.count({ where });
