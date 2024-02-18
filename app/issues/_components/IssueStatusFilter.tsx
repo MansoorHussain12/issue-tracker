@@ -15,7 +15,7 @@ const IssueStatusFilter = () => {
     { label: "Closed", value: "CLOSED" },
   ];
 
-  const changeParameters = (status: string) => {
+  const filterByStatus = (status: string) => {
     const params = new URLSearchParams();
 
     if (searchParams.get("pageSize"))
@@ -33,7 +33,7 @@ const IssueStatusFilter = () => {
   return (
     <Select.Root
       defaultValue={searchParams.get("status") || "all"}
-      onValueChange={changeParameters}
+      onValueChange={filterByStatus}
     >
       <Select.Trigger placeholder="Filter by status..." />
       <Select.Content>

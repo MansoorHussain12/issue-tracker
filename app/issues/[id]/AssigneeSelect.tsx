@@ -1,23 +1,16 @@
 "use client";
 
 import { Skeleton } from "@/app/components";
-import { Issue, User } from "@prisma/client";
+import useUsers from "@/app/hooks/useUsers";
+import { Issue } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
-import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 
 const AssigneeSelect = ({ issue }: { issue: Issue }) => {
-  const {
-    data: users,
-    isLoading,
-    error,
-  } = useQuery<User[]>({
-    queryKey: ["users"],
-    queryFn: () => axios.get("/api/users").then((res) => res.data),
-    staleTime: 60 * 1000, // 1m
-    retry: 3,
-  });
+  const { data: users, isLoading, error } = useUsers();
+  const router = useRouter();
 
   if (error) return null;
 
@@ -27,7 +20,10 @@ const AssigneeSelect = ({ issue }: { issue: Issue }) => {
     try {
       await axios.patch(`/api/issues/${issue.id}`, {
         assignedToUserId: userId !== "unassigned" ? userId : null,
+        status: !issue.assignedToUserId ? "IN_PROGRESS" : issue.status,
       });
+
+      router.refresh();
     } catch (error) {
       toast.error("Changes could not be saved");
     }
