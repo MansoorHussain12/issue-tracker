@@ -4,11 +4,12 @@ import { Box, Flex, Grid } from "@radix-ui/themes";
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
 import { cache } from "react";
-import AssigneeSelect from "./AssigneeSelect";
-import DeleteIssueButton from "./DeleteIssueButton";
-import EditIssueButton from "./EditIssueButton";
-import IssueDetails from "./IssueDetails";
-import StatusSelect from "./StatusSelect";
+import AssigneeSelect from "./_components/AssigneeSelect";
+import DeleteIssueButton from "./_components/DeleteIssueButton";
+import EditIssueButton from "./_components/EditIssueButton";
+import IssueDetails from "./_components/IssueDetails";
+import StatusSelect from "./_components/StatusSelect";
+import AddComment from "./_components/AddComment";
 
 interface Props {
   params: { id: string };
@@ -35,6 +36,7 @@ const IssueDetailsPage = async ({ params }: Props) => {
     >
       <Box className="md:col-span-4">
         <IssueDetails issue={issue} />
+        {session && <AddComment issue={issue} session={session} />}
       </Box>
       {session && (
         <Box>

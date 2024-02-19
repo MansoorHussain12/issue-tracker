@@ -2,14 +2,25 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 model Issue {
-  id               Int      @id @default(autoincrement())
-  title            String   @db.VarChar(255)
-  description      String   @db.Text
-  status           Status   @default(OPEN)
-  createdAt        DateTime @default(now())
-  updatedAt        DateTime @updatedAt
-  assignedToUserId String?  @db.VarChar(255)
-  assignedToUser   User?    @relation(fields: [assignedToUserId], references: [id])
+  id               Int       @id @default(autoincrement())
+  title            String    @db.VarChar(255)
+  description      String    @db.Text
+  status           Status    @default(OPEN)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  assignedToUserId String?   @db.VarChar(255)
+  assignedToUser   User?     @relation(fields: [assignedToUserId], references: [id])
+  comments         Comment[]
+}
+
+model Comment {
+  id        Int      @id @default(autoincrement())
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  issue     Issue    @relation(fields: [issueId], references: [id])
+  issueId   Int
+  user      User     @relation(fields: [userEmail], references: [email])
+  userEmail String
 }
 
 enum Status {
@@ -54,6 +65,7 @@ model User {
   accounts       Account[]
   sessions       Session[]
   assignedIssues Issue[]
+  comments       Comment[]
 }
 
 model VerificationToken {
