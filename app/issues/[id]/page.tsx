@@ -10,6 +10,7 @@ import EditIssueButton from "./_components/EditIssueButton";
 import IssueDetails from "./_components/IssueDetails";
 import StatusSelect from "./_components/StatusSelect";
 import AddComment from "./_components/AddComment";
+import AllComment from "./_components/AllComment";
 
 interface Props {
   params: { id: string };
@@ -34,10 +35,11 @@ const IssueDetailsPage = async ({ params }: Props) => {
         sm: "5",
       }}
     >
-      <Box className="md:col-span-4">
+      <Flex className="md:col-span-4" direction="column" gap="5">
         <IssueDetails issue={issue} />
         {session && <AddComment issue={issue} session={session} />}
-      </Box>
+        <AllComment />
+      </Flex>
       {session && (
         <Box>
           <Flex direction="column" gap="4">

@@ -3,7 +3,7 @@
 import { commentSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Issue } from "@prisma/client";
-import { Button, Flex, TextArea } from "@radix-ui/themes";
+import { Button, Flex, Heading, TextArea } from "@radix-ui/themes";
 import axios from "axios";
 import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
@@ -53,21 +53,20 @@ const AddComment = ({ issue, session }: Props) => {
   });
 
   return (
-    <>
+    <div>
       <form onSubmit={onSubmit}>
         <Flex gap="2" mt="3">
           <TextArea
             className="w-full"
-            placeholder="Add comment…"
+            placeholder="Type your comment here..."
             size="1"
-            variant="soft"
             {...register("content")}
           />
           <Button disabled={!isValid || submitting}>Post</Button>
         </Flex>
       </form>
       <Toaster />
-    </>
+    </div>
   );
 };
 
