@@ -23,20 +23,10 @@ export async function POST(request: NextRequest) {
   if (!issue)
     return NextResponse.json({ error: "Inavlid request" }, { status: 400 });
 
-  const user = await prisma.user.findUnique({
-    where: {
-      email: body.userEmail,
-    },
-  });
-
-  if (!user)
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
-
   const newComment = await prisma.comment.create({
     data: {
       content: body.content,
       issueId: body.issueId,
-      userEmail: body.userEmail,
     },
   });
 

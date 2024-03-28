@@ -1,5 +1,13 @@
 import prisma from "@/prisma/client";
-import { Avatar, Box, Card, Flex, Heading, Table } from "@radix-ui/themes";
+import {
+  Avatar,
+  Box,
+  Card,
+  Flex,
+  Heading,
+  Table,
+  Tooltip,
+} from "@radix-ui/themes";
 import Link from "next/link";
 import { IssueStatusBadge } from "./components";
 
@@ -27,12 +35,14 @@ const LatestIssues = async () => {
                       <IssueStatusBadge status={issue.status} />
                     </Flex>
                     {issue.assignedToUser && (
-                      <Avatar
-                        src={issue.assignedToUser.image!}
-                        fallback="?"
-                        size="2"
-                        radius="full"
-                      />
+                      <Tooltip content={issue.assignedToUser.name!}>
+                        <Avatar
+                          src={issue.assignedToUser.image!}
+                          fallback="?"
+                          size="2"
+                          radius="full"
+                        />
+                      </Tooltip>
                     )}
                   </Flex>
                 </Table.Cell>

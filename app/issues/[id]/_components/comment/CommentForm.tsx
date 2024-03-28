@@ -19,7 +19,7 @@ interface Props {
   session: Session;
 }
 
-const AddComment = ({ issue, session }: Props) => {
+const CommentForm = ({ issue, session }: Props) => {
   const {
     register,
     handleSubmit,
@@ -33,23 +33,21 @@ const AddComment = ({ issue, session }: Props) => {
   const router = useRouter();
 
   const onSubmit = handleSubmit(async (data) => {
-    try {
-      setSubmitting(true);
-
-      if (issue && session.user)
-        await axios.post("/api/comments", {
-          content: data.content,
-          issueId: issue.id,
-          userEmail: session.user.email,
-        });
-
-      setSubmitting(false);
-      reset();
-      router.refresh();
-    } catch (error) {
-      toast.error("An unexpected error has occured");
-      setSubmitting(false);
-    }
+    // try {
+    //   setSubmitting(true);
+    //   if (issue && session.user)
+    //     await axios.post("/api/comments", {
+    //       content: data.content,
+    //       issueId: issue.id,
+    //       userEmail: session.user.email,
+    //     });
+    //   setSubmitting(false);
+    //   reset();
+    //   router.refresh();
+    // } catch (error) {
+    //   toast.error("An unexpected error has occured");
+    //   setSubmitting(false);
+    // }
   });
 
   return (
@@ -59,10 +57,16 @@ const AddComment = ({ issue, session }: Props) => {
           <TextArea
             className="w-full"
             placeholder="Type your comment here..."
-            size="1"
+            size="2"
             {...register("content")}
           />
-          <Button disabled={!isValid || submitting}>Post</Button>
+          <Button
+            disabled={!isValid || submitting}
+            variant="surface"
+            className="self-center"
+          >
+            Add
+          </Button>
         </Flex>
       </form>
       <Toaster />
@@ -70,4 +74,4 @@ const AddComment = ({ issue, session }: Props) => {
   );
 };
 
-export default AddComment;
+export default CommentForm;

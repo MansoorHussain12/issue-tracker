@@ -33,7 +33,7 @@ const AuthStatus = () => {
         </DropdownMenu.Trigger>
         <DropdownMenu.Content>
           <DropdownMenu.Label>{session!.user!.email}</DropdownMenu.Label>
-          <DropdownMenu.Item>
+          <DropdownMenu.Item asChild>
             <Link href="/api/auth/signout">Log out</Link>
           </DropdownMenu.Item>
         </DropdownMenu.Content>

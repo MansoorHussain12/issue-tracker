@@ -1,4 +1,5 @@
-import { Flex, Avatar, Heading, Text, Box } from "@radix-ui/themes";
+import { HeartFilledIcon } from "@radix-ui/react-icons";
+import { Flex, Avatar, Heading, Text, Box, Tooltip } from "@radix-ui/themes";
 
 const Comment = () => {
   return (
@@ -8,9 +9,10 @@ const Comment = () => {
         fallback="A"
         radius="full"
       />
-      <Box>
+      <Box className="relative">
         <Flex gap="2" direction="column" className="bg-gray-100 rounded-lg p-2">
           <Heading size="2">Name Here</Heading>
+
           <Text size="1">
             {" "}
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corrupti
@@ -22,6 +24,12 @@ const Comment = () => {
             doloribus.
           </Text>
         </Flex>
+        <Tooltip content="Mansoor Hussain">
+          <HeartFilledIcon
+            className="absolute bottom-10 -right-2"
+            color="red"
+          />
+        </Tooltip>
         <Flex gap="5" className="p-2">
           <Text color="blue" size="1" className="cursor-pointer font-bold">
             Like

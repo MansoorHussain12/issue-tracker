@@ -10,7 +10,7 @@ const IssueActions = () => {
         <IssueStatusFilter />
         <IssuePageSizeSelector />
       </Flex>
-      <Button>
+      <Button asChild>
         <Link href="/issues/new">Create Issue</Link>
       </Button>
     </Flex>

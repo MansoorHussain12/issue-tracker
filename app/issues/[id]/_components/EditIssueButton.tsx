@@ -4,9 +4,13 @@ import Link from "next/link";
 
 const EditIssueButton = ({ issueId }: { issueId: number }) => {
   return (
-    <Button>
-      <Pencil2Icon />
-      <Link href={`/issues/${issueId}/edit`}>Edit Issue</Link>
+    <Button asChild>
+      <Link href={`/issues/${issueId}/edit`}>
+        <div className="flex items-center gap-2">
+          <Pencil2Icon />
+          <span>Edit Issue</span>
+        </div>
+      </Link>
     </Button>
   );
 };
