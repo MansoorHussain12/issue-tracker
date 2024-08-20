@@ -1,11 +1,16 @@
 "use client";
 
-import { DropdownMenu, Flex, Heading, Text } from "@radix-ui/themes";
-import Comment from "./Comment";
-import Link from "next/link";
 import { ChevronDownIcon } from "@radix-ui/react-icons";
+import { DropdownMenu, Flex, Heading, Text } from "@radix-ui/themes";
+import Link from "next/link";
+import Comment from "./Comment";
+import { Comment as CommentModel } from "@prisma/client";
 
-const AllComment = () => {
+interface Props {
+  comments: CommentModel[];
+}
+
+const AllComment = ({ comments }: Props) => {
   return (
     <Flex direction="column" gap="3">
       <Flex justify="between">
@@ -32,10 +37,9 @@ const AllComment = () => {
           </DropdownMenu.Content>
         </DropdownMenu.Root>
       </Flex>
-      <Comment />
-      <Comment />
-      <Comment />
-      <Comment />
+      {comments.map((comment) => (
+        <Comment key={comment.id} />
+      ))}
     </Flex>
   );
 };

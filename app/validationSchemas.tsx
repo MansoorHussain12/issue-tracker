@@ -22,4 +22,6 @@ export const patchIssueSchema = z.object({
 
 export const commentSchema = z.object({
   content: z.string().min(1).max(3000),
+  issueId: z.number(),
+  userId: z.string(),
 });

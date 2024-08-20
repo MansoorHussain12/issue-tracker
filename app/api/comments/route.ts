@@ -14,19 +14,31 @@ export async function POST(request: NextRequest) {
   if (!validation.success)
     return NextResponse.json(validation.error.format(), { status: 400 });
 
+  const { content, issueId, userId } = body;
+
   const issue = await prisma.issue.findUnique({
     where: {
-      id: body.issueId,
+      id: issueId,
     },
   });
 
   if (!issue)
     return NextResponse.json({ error: "Inavlid request" }, { status: 400 });
 
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  if (!user)
+    return NextResponse.json({ error: "Inavlid request" }, { status: 400 });
+
   const newComment = await prisma.comment.create({
     data: {
-      content: body.content,
-      issueId: body.issueId,
+      content,
+      issueId,
+      userId,
     },
   });
 

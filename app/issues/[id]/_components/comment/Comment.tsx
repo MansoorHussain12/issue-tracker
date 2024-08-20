@@ -1,6 +1,12 @@
 import { HeartFilledIcon } from "@radix-ui/react-icons";
 import { Flex, Avatar, Heading, Text, Box, Tooltip } from "@radix-ui/themes";
 
+interface Props {
+  userAvatar: string;
+  userName: string;
+  content: string;
+}
+
 const Comment = () => {
   return (
     <Flex gap="2">

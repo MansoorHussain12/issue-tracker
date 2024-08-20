@@ -24,6 +24,12 @@ const IssueDetailsPage = async ({ params }: Props) => {
   const session = await getServerSession(authOptions);
 
   const issue = await fetchIssue(parseInt(params.id));
+  const comments = await prisma.comment.findMany({
+    where: {
+      issueId: parseInt(params.id),
+    },
+    include: { user: true, likes: true, replies: true, _count: true },
+  });
 
   if (!issue) notFound();
 
@@ -38,7 +44,7 @@ const IssueDetailsPage = async ({ params }: Props) => {
       <Flex className="md:col-span-4" direction="column" gap="5">
         <IssueDetails issue={issue} />
         {session && <CommentForm issue={issue} session={session} />}
-        <AllComment />
+        <AllComment comments={comments} />
       </Flex>
       {session && (
         <Flex direction="column" gap="4">
