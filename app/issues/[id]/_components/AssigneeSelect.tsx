@@ -2,9 +2,8 @@
 
 import { Skeleton } from "@/app/components";
 import useUsers from "@/app/hooks/useUsers";
-import { Issue, User } from "@prisma/client";
+import { Issue } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
-import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 
