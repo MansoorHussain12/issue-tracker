@@ -1,12 +1,12 @@
 "use client";
 
+import { Skeleton } from "@/app/components";
 import { Avatar, Box, Container, DropdownMenu, Flex } from "@radix-ui/themes";
 import classNames from "classnames";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiFillBug } from "react-icons/ai";
-import { Skeleton } from "@/app/components";
 
 const AuthStatus = () => {
   const { status, data: session } = useSession();
@@ -36,6 +36,10 @@ const AuthStatus = () => {
           <DropdownMenu.Item asChild>
             <Link href="/api/auth/signout">Log out</Link>
           </DropdownMenu.Item>
+          {/* <DropdownMenu.Separator />
+          <DropdownMenu.Item asChild>
+            <DarkModeToggle />
+          </DropdownMenu.Item> */}
         </DropdownMenu.Content>
       </DropdownMenu.Root>
     </Box>
