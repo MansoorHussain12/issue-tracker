@@ -70,11 +70,6 @@ const NavLinks = () => {
 };
 
 const NavBar = () => {
-  console.log({
-    clientId: process.env.AUTH0_CLIENT_ID!,
-    clientSecret: process.env.AUTH0_CLIENT_SECRET!,
-    issuer: process.env.AUTH0_ISSUER!,
-  });
   return (
     <nav className="px-5 mb-5 border-b py-3">
       <Container>

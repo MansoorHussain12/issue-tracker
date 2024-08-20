@@ -12,9 +12,9 @@ const authOptions: NextAuthOptions = {
       issuer: process.env.AUTH0_ISSUER!,
     }),
   ],
-  // session: {
-  //   strategy: "jwt",
-  // },
+  session: {
+    strategy: "jwt",
+  },
 };
 
 export default authOptions;
