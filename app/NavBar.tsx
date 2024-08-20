@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AiFillBug } from "react-icons/ai";
+import DarkModeToggle from "./components/DarkModeToggle";
 
 const AuthStatus = () => {
   const { status, data: session } = useSession();
@@ -36,10 +37,6 @@ const AuthStatus = () => {
           <DropdownMenu.Item asChild>
             <Link href="/api/auth/signout">Log out</Link>
           </DropdownMenu.Item>
-          {/* <DropdownMenu.Separator />
-          <DropdownMenu.Item asChild>
-            <DarkModeToggle />
-          </DropdownMenu.Item> */}
         </DropdownMenu.Content>
       </DropdownMenu.Root>
     </Box>
@@ -84,7 +81,10 @@ const NavBar = () => {
             </Link>
             <NavLinks />
           </Flex>
-          <AuthStatus />
+          <Flex align="center" gap="5">
+            <DarkModeToggle />
+            <AuthStatus />
+          </Flex>
         </Flex>
       </Container>
     </nav>
