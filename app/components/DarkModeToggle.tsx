@@ -1,5 +1,5 @@
 import { MoonIcon, SunIcon } from "@radix-ui/react-icons";
-import { Button } from "@radix-ui/themes";
+import { Button, Tooltip } from "@radix-ui/themes";
 import { useEffect, useState } from "react";
 
 export default function DarkModeToggle() {
@@ -29,8 +29,10 @@ export default function DarkModeToggle() {
   };
 
   return (
-    <Button variant="ghost" radius="full" onClick={toggleTheme}>
-      {theme === "dark" ? <SunIcon /> : <MoonIcon />}
-    </Button>
+    <Tooltip content={theme === "dark" ? "Light Mode" : "Dark Mode"}>
+      <Button variant="ghost" radius="full" onClick={toggleTheme}>
+        {theme === "dark" ? <SunIcon /> : <MoonIcon />}
+      </Button>
+    </Tooltip>
   );
 }
