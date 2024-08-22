@@ -1,5 +1,5 @@
 import { IssueStatusBadge, Link } from "@/app/components";
-import { Issue, Status } from "@prisma/client";
+import { Issue, Status, User } from "@prisma/client";
 import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
 import { Table } from "@radix-ui/themes";
 import NextLink from "next/link";
@@ -10,6 +10,7 @@ export interface IssueQuery {
   sort: "asc" | "desc";
   page: string;
   pageSize: string;
+  assignee: User["id"];
 }
 
 interface Props {

@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const statuses: { label: string; value?: Status }[] = [
-  { label: "All" },
+  { label: "All status" },
   { label: "Open", value: "OPEN" },
   { label: "In Progress", value: "IN_PROGRESS" },
   { label: "Closed", value: "CLOSED" },
@@ -18,19 +18,16 @@ const IssueStatusFilter = () => {
   const [selectedStatus, setSelectedStatus] = useState<string | undefined>();
 
   useEffect(() => {
-    setSelectedStatus(searchParams.get("status") || "all");
+    setSelectedStatus(searchParams.get("status") || "All status");
   }, [searchParams]);
 
   const changeParameters = (status: string) => {
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(searchParams);
 
-    if (searchParams.get("pageSize"))
-      params.append("pageSize", searchParams.get("pageSize")!);
-
-    if (status) params.append("status", status);
-
-    if (searchParams.get("orderBy"))
-      params.append("orderBy", searchParams.get("orderBy")!);
+    if (status !== "All status") {
+      if (params.get("status")) params.set("status", status);
+      else params.append("status", status);
+    } else params.delete("status");
 
     const query = params.size ? "?" + params.toString() : "";
     router.push(`/issues${query}`);
@@ -42,8 +39,8 @@ const IssueStatusFilter = () => {
       <Select.Content>
         {statuses.map((status) => (
           <Select.Item
-            key={status.value || "all"}
-            value={status.value || "all"}
+            key={status.value || "All status"}
+            value={status.value || "All status"}
           >
             {status.label}
           </Select.Item>

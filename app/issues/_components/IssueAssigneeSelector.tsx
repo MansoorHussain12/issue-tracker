@@ -1,41 +1,47 @@
 "use client";
 
+import { User } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-const IssueAssigneeSelector = () => {
+interface Props {
+  assignees: User[];
+}
+
+const IssueAssigneeSelector = ({ assignees }: Props) => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const [selectedUser, setSelectedUser] = useState<string | undefined>();
 
-  const pageSizes: string[] = ["5", "10", "20", "30", "50"];
+  useEffect(() => {
+    setSelectedUser(searchParams.get("assignee") || "Select Assignee");
+  }, [searchParams]);
 
-  const changeParameters = (pageSize: string) => {
-    const params = new URLSearchParams();
-    if (pageSize) params.append("pageSize", pageSize);
+  const changeParameters = (assignee: string) => {
+    const params = new URLSearchParams(searchParams);
+    if (assignee !== "Select Assignee") params.set("assignee", assignee);
+    else params.delete("assignee");
 
-    if (searchParams.get("status"))
-      params.append("status", searchParams.get("status")!);
-    if (searchParams.get("orderBy"))
-      params.append("orderBy", searchParams.get("orderBy")!);
-    if (searchParams.get("sort"))
-      params.append("sort", searchParams.get("sort")!);
-
-    const query = params.size ? "?" + params.toString() : "";
+    const query = params.toString() ? "?" + params.toString() : "";
     router.push(`/issues${query}`);
   };
 
   return (
-    <Select.Root
-      defaultValue={searchParams.get("pageSize") || "10"}
-      onValueChange={changeParameters}
-    >
-      <Select.Trigger placeholder="Select Page Size..." />
+    <Select.Root value={selectedUser} onValueChange={changeParameters}>
+      <Select.Trigger placeholder="Filter by assignees..." />
       <Select.Content>
-        {pageSizes.map((size) => (
-          <Select.Item key={size} value={size}>
-            {size}
-          </Select.Item>
-        ))}
+        <Select.Group>
+          <Select.Label>Assignees</Select.Label>
+          {assignees.map((assignee) => (
+            <Select.Item
+              key={assignee.id || "Select Assignee"}
+              value={assignee.id || "Select Assignee"}
+            >
+              {assignee.name}
+            </Select.Item>
+          ))}
+        </Select.Group>
       </Select.Content>
     </Select.Root>
   );

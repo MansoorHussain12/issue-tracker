@@ -18,15 +18,9 @@ const IssuePageSizeSelector = () => {
   }, [searchParams]);
 
   const changeParameters = (pageSize: string) => {
-    const params = new URLSearchParams();
-    if (pageSize) params.append("pageSize", pageSize);
-
-    if (searchParams.get("status"))
-      params.append("status", searchParams.get("status")!);
-    if (searchParams.get("orderBy"))
-      params.append("orderBy", searchParams.get("orderBy")!);
-    if (searchParams.get("sort"))
-      params.append("sort", searchParams.get("sort")!);
+    const params = new URLSearchParams(searchParams);
+    if (params.get("pageSize")) params.set("pageSize", pageSize);
+    else params.append("pageSize", pageSize);
 
     const query = params.size ? "?" + params.toString() : "";
     router.push(`/issues${query}`);
@@ -36,11 +30,14 @@ const IssuePageSizeSelector = () => {
     <Select.Root value={selectedPageSize} onValueChange={changeParameters}>
       <Select.Trigger placeholder="Select Page Size..." />
       <Select.Content>
-        {pageSizes.map((size) => (
-          <Select.Item key={size} value={size}>
-            {size}
-          </Select.Item>
-        ))}
+        <Select.Group>
+          <Select.Label>Page Size</Select.Label>
+          {pageSizes.map((size) => (
+            <Select.Item key={size} value={size}>
+              {size}
+            </Select.Item>
+          ))}
+        </Select.Group>
       </Select.Content>
     </Select.Root>
   );
