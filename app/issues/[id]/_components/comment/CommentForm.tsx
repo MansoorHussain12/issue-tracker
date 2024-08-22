@@ -3,13 +3,12 @@
 import { commentSchema } from "@/app/validationSchemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Issue } from "@prisma/client";
-import { Button, Flex, Heading, TextArea } from "@radix-ui/themes";
-import axios from "axios";
+import { Button, Flex, TextArea } from "@radix-ui/themes";
 import { Session } from "next-auth";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import toast, { Toaster } from "react-hot-toast";
+
 import { z } from "zod";
 
 type CommentFormData = z.infer<typeof commentSchema>;
@@ -45,7 +44,6 @@ const CommentForm = ({ issue, session }: Props) => {
     //   reset();
     //   router.refresh();
     // } catch (error) {
-    //   toast.error("An unexpected error has occured");
     //   setSubmitting(false);
     // }
   });
@@ -69,7 +67,6 @@ const CommentForm = ({ issue, session }: Props) => {
           </Button>
         </Flex>
       </form>
-      <Toaster />
     </div>
   );
 };

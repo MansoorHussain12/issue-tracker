@@ -4,7 +4,6 @@ import { Issue, Status } from "@prisma/client";
 import { Select } from "@radix-ui/themes";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-import toast, { Toaster } from "react-hot-toast";
 
 const StatusSelect = ({ issue }: { issue: Issue }) => {
   const router = useRouter();
@@ -22,9 +21,7 @@ const StatusSelect = ({ issue }: { issue: Issue }) => {
       });
 
       router.refresh();
-    } catch (error) {
-      toast.error("Changes could not be saved");
-    }
+    } catch (error) {}
   };
 
   return (
@@ -45,7 +42,6 @@ const StatusSelect = ({ issue }: { issue: Issue }) => {
           </Select.Group>
         </Select.Content>
       </Select.Root>
-      <Toaster />
     </>
   );
 };
