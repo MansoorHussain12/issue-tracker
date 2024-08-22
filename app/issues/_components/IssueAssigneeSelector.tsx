@@ -2,20 +2,12 @@
 
 import { Select } from "@radix-ui/themes";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
 
-const pageSizes: string[] = ["5", "10", "20", "30", "50"];
-
-const IssuePageSizeSelector = () => {
+const IssueAssigneeSelector = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const [selectedPageSize, setSelectedPageSize] = useState<
-    string | undefined
-  >();
 
-  useEffect(() => {
-    setSelectedPageSize(searchParams.get("pageSize") || "10");
-  }, [searchParams]);
+  const pageSizes: string[] = ["5", "10", "20", "30", "50"];
 
   const changeParameters = (pageSize: string) => {
     const params = new URLSearchParams();
@@ -33,7 +25,10 @@ const IssuePageSizeSelector = () => {
   };
 
   return (
-    <Select.Root value={selectedPageSize} onValueChange={changeParameters}>
+    <Select.Root
+      defaultValue={searchParams.get("pageSize") || "10"}
+      onValueChange={changeParameters}
+    >
       <Select.Trigger placeholder="Select Page Size..." />
       <Select.Content>
         {pageSizes.map((size) => (
@@ -46,4 +41,4 @@ const IssuePageSizeSelector = () => {
   );
 };
 
-export default IssuePageSizeSelector;
+export default IssueAssigneeSelector;
